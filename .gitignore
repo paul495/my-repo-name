@@ -1,0 +1,7 @@
+.env
+__pycache__/
+uploads/
+venv/
+.venv/
+conda_env/
+mlx_env/

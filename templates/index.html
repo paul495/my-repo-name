@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisper AI Transcriber</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Whisper <span class="accent">AI</span> Transcriber</h1>
+            <p>Upload an MP4 video. We extract the audio using FFmpeg and transcribe it using OpenAI Whisper.</p>
+        </header>
+
+        <main>
+            <div class="upload-section" id="drop-area">
+                <form class="my-form">
+                    <p>Drag & Drop your MP4 here</p>
+                    <p class="or">or</p>
+                    <input type="file" id="fileElem" accept="video/mp4" onchange="handleFiles(this.files)">
+                    <label class="button" for="fileElem">Select a Video</label>
+                    <div class="lang-selector">
+                        <label for="language">Language:</label>
+                        <select id="language" class="lang-select">
+                            <option value="auto">Auto-Detect</option>
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ja">Japanese</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ko">Korean</option>
+                            <option value="ru">Russian</option>
+                            <option value="ta">Tamil</option>
+                        </select>
+                        <label for="task" style="margin-left: 10px;">Task:</label>
+                        <select id="task" class="lang-select">
+                            <option value="transcribe">Transcribe</option>
+                            <option value="translate">Translate (to English)</option>
+                        </select>
+                    </div>
+                </form>
+                <div id="file-info" class="hidden">
+                    <span id="file-name"></span>
+                    <button class="remove-btn" onclick="clearSelection()">✖</button>
+                </div>
+            </div>
+
+            <button id="process-btn" class="process-btn" disabled>Transcribe Now</button>
+
+            <div class="loader-container hidden" id="loader">
+                <div class="spinner"></div>
+                <p id="loader-text">Extracting audio & Transcribing... this might take a while.</p>
+            </div>
+
+            <div class="results hidden" id="results">
+                <h2>Transcription Results</h2>
+                
+                <div class="result-box">
+                    <h3>Language</h3>
+                    <p id="res-language" class="code-like">-</p>
+                </div>
+
+                <div class="result-box">
+                    <h3>Full Text</h3>
+                    <p id="res-text">-</p>
+                </div>
+
+                <div class="result-box">
+                    <h3>Raw Output (JSON)</h3>
+                    <pre id="res-json"></pre>
+                </div>
+                
+                <div class="download-actions">
+                    <button class="action-btn" id="dl-txt">Download TXT</button>
+                    <button class="action-btn" id="dl-srt">Download SRT</button>
+                    <button class="action-btn" id="dl-json">Download JSON</button>
+                </div>
+
+                <button class="process-btn secondary" id="reset-btn" style="margin-top: 1rem;">Process Another Video</button>
+            </div>
+            
+            <div id="error-message" class="error hidden"></div>
+        </main>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
