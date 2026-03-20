@@ -25,4 +25,4 @@ EXPOSE $PORT
 
 # Start the application using Gunicorn with an extended timeout 
 # (helpful for processing larger transcription files)
-CMD gunicorn --bind 0.0.0.0:$PORT --timeout 120 --workers 1 app:app
+CMD gunicorn --bind 0.0.0.0:$PORT --timeout 600 --workers 1 app:app
