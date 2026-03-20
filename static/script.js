@@ -117,11 +117,19 @@ processBtn.addEventListener('click', async () => {
             body: formData
         });
 
-        const data = await response.json();
+        const textResponse = await response.text();
+        let data;
+        try {
+            data = JSON.parse(textResponse);
+        } catch (e) {
+            console.error("Non-JSON Response:", textResponse);
+            throw new Error(`Server Error (${response.status}): The server took too long or returned an invalid response.`);
+        }
 
         if (!response.ok) {
             throw new Error(data.error || 'Server responded with an error');
         }
+
         
         lastData = data;
 
