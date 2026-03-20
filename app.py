@@ -43,7 +43,7 @@ def transcribe():
     
     file = request.files['video']
     language = request.form.get('language', 'auto')
-    task_type = request.form.get('task', 'transcribe')
+    task_type = request.form.get('task', 'translate')
     
     if file.filename == '':
         return jsonify({'error': 'No file selected'}), 400
@@ -73,8 +73,13 @@ def transcribe():
                 if language and language != 'auto':
                     transcribe_kwargs['language'] = language
                     
-                print(f"Transcribing using OpenAI API...")
-                result = client.audio.transcriptions.create(**transcribe_kwargs)
+                if task_type == 'translate':
+                    print(f"Translating to English using OpenAI API...")
+                    transcribe_kwargs.pop('language', None)
+                    result = client.audio.translations.create(**transcribe_kwargs)
+                else:
+                    print(f"Transcribing using OpenAI API...")
+                    result = client.audio.transcriptions.create(**transcribe_kwargs)
                 
                 if hasattr(result, 'model_dump'):
                     result_dict = result.model_dump()
